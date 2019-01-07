@@ -37,12 +37,7 @@
                 <div class="navbar navbar-default navbar-static-top"  style="background-color: #3c3c3c;height:100px; margin-top:-25px">
                 <div class="container">
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="/"><img src="{% static 'imgs/logo2.png' %}" alt="logo"/></a>
+                        <a class="navbar-brand" href="/"><img style="margin-top: 20px" src="{% static 'imgs/logo2.png' %}" alt="logo"/></a>
                     </div>
                     <div class="navbar-collapse collapse " style="float: right; margin-top:40px">
                         <ul class="nav navbar-nav">
@@ -89,7 +84,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="text-center" v-for="item,index in datas">
+                                    <tr class="text-center" v-for="(item,index) in pagerData.data">
                                         <td>[[index+1]]</td>
                                         <td><a :href="[[item.href]]" target="_blank">[[item.item.name]]</a></td>
                                         <td>[[item.label]]</td>
@@ -136,7 +131,7 @@
                     data: [],
                     page: {
                         arrPageSize: [10, 20, 30],
-                        pageSize: 10,
+                        pageSize: 15,
                         pageCount: 1,
                         pageCurrent: 1,
                         totalCount: 1
@@ -165,14 +160,13 @@
                     }
                     this.pagerData.page = {
                             arrPageSize: [10, 20, 30],
-                            pageSize: 10,
+                            pageSize: 15,
                             pageCount: 1,
                             pageCurrent: 1,
                             totalCount: 1
                         };
-                        this.pagerData.page.totalCount = this.datas.length;
-                        this.getPageData(this.pagerData.page);
-
+                    this.pagerData.page.totalCount = this.datas.length;
+                    this.getPageData(this.pagerData.page);
                 });
 		},
         methods: {
@@ -203,28 +197,31 @@
 
                 });
             },
-                    showPage: function (pageIndex) {
+        showPage: function (pageIndex) {
                     if (pageIndex > 0) {
                         if(pageIndex>this.pagerData.page.pageCount) pageIndex = this.page.pageCount;
                         this.getPageData({pageCurrent:pageIndex,pageSize:this.pageSize});//事件
                     }
                 },
-            sortBy: function (sortparam) {
-                        this.sortparam = sortparam;
-                        this.sorttype = this.sorttype == -1 ? 1 : -1;
-                    },
-            getPageData: function(page) {
-                    this.pagerData.page.pageSize = page.pageSize;
-                    this.pagerData.page.pageCurrent = page.pageCurrent;
-                    this.pagerData.page.pageCount = Math.ceil(this.pagerData.page.totalCount / this.pagerData.page.pageSize);// 修改分页信息
-                    let newPageInfo = [];
-                    for (let i = 0; i < page.pageSize; i++) {
-                        let index =i+(page.pageCurrent-1)*page.pageSize;
-                        if(index>this.pagerData.page.totalCount-1)break;
-                            newPageInfo[newPageInfo.length] = this.datas[index];
-                    }
-                    this.pagerData.data = newPageInfo; // 修改分页数据
-            }
+        sortBy: function (sortparam) {
+                    this.sortparam = sortparam;
+                    this.sorttype = this.sorttype == -1 ? 1 : -1;
+                },
+        getPageData: function(page) {
+                this.pagerData.page.pageSize = page.pageSize;
+                this.pagerData.page.pageCurrent = page.pageCurrent;
+                this.pagerData.page.pageCount = Math.ceil(this.pagerData.page.totalCount / this.pagerData.page.pageSize);// 修改分页信息
+                let newPageInfo = [];
+                for (let i = 0; i < page.pageSize; i++) {
+                    let index =i+(page.pageCurrent-1)*page.pageSize;
+                    if(index>this.pagerData.page.totalCount-1)break;
+                        newPageInfo[newPageInfo.length] = this.datas[index];
+                }
+                this.pagerData.data = newPageInfo; // 修改分页数据
+                this.pagerData.data.forEach((datas_item, item)=>{
+                   datas_item.href = "/front/detail/"+datas_item.label+"/"+datas_item.venue+"/"+datas_item.item.name;
+                });
+            },
         },
             //计算属性
         computed:{

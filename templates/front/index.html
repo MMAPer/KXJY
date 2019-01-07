@@ -8,134 +8,63 @@
 {% block nav_index_activate %}active{% endblock %}
 
 {% block header_extends %}
-	    <script type="text/javascript" src="{% static 'vue/vue.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'vue/vue.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'vue/axios.min.js' %}"></script>
 	<link rel="stylesheet" type="text/css" href="{% static 'bower_components/Ionicons/css/ionicons.min.css' %}">
 {% endblock %}
 
 {% block content %}
-
-    <!-- start banner -->
-    <section id="banner">
-        <!-- Slider -->
-        <div id="main-slider" class="flexslider">
-                <ul class="slides">
-                    <li>
-                        <img src="{% static 'imgs/slides/bg1.jpg' %}" alt="" />
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="flex-caption">
-                                        <h3>科学技术文化传播</h3>
-                                        <p>让科学流行起来</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="{% static 'imgs/slides/bg2.jpg' %}" alt="" />
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="flex-caption">
-                                        <h3>科学技术文化传播</h3>
-                                        <p>让科学流行起来</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="{% static 'imgs/slides/bg3.jpg' %}" alt="" />
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="flex-caption">
-                                        <h3>科学技术文化传播</h3>
-                                        <p>让科学流行起来</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="{% static 'imgs/slides/bg4.jpg' %}" alt="" />
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="flex-caption">
-                                        <h3>科学技术文化传播</h3>
-                                        <p>让科学流行起来</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <img src="{% static 'imgs/slides/bg5.jpg' %}" alt="" />
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="flex-caption">
-                                        <h3>科学技术文化传播</h3>
-                                        <p>让科学流行起来</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+<section class="callaction" style="margin-top: 50px">
+	<div class="callaction-1 container">
+        <div class="row">
+            <img src="{% static 'imgs/bg_logo.jpg' %}" class="center-block"/>
+        </div>
+        <div class="row" id="index_search">
+            <div class="col-md-3"></div>
+            <div class="form-inline col-md-8">
+            <div class="form-group" style="margin-right: 20px;">
+                <label for="venueName" style="font-width:bold;">展馆名称</label>
+                <input type="text" class="form-control" id="venueName" v-model="venueName" autofocus="autofocus">
             </div>
-        <!-- end slider -->
-	</section>
-    <!-- end banner -->
-			<br />
-            <div class="row" id="index_search">
-                <div class="col-md-3"></div>
-                <div class="form-inline col-md-8">
-                    <div class="form-group" style="margin-right: 20px;">
-                        <label for="venueName">展馆名称</label>
-                        <input type="text" class="form-control" id="venueName" v-model="venueName" >
-                    </div>
-                    <div class="form-group" style="margin-right: 20px">
-                        <label for="itemName">展品名称</label>
-                        <input type="text" class="form-control" id="itemName" v-model="itemName">
-                    </div>
-                    <button type="submit" class="btn btn-primary" @click="searchData">搜索</button>
-                </div>
-                <div class="col-md-2"></div>
+            <div class="form-group" style="margin-right: 20px">
+                <label for="itemName">展品名称</label>
+                <input type="text" class="form-control" id="itemName" v-model="itemName">
             </div>
-            <br />
+            <button type="submit" class="btn btn-primary" @click="searchData">搜索</button>
+        </div>
+        </div>
+    </div>
+</section>
+    <br />
 
     <!-- 平台简介 -->
-	<section class="callaction">
-	    <div class="callaction-1 container">
-		<div class="row">
-			<div class="col-lg-12">
-				<div>
-                    <h1>湖北省科技馆介绍</h1>
-                    <p style="text-indent: 2em"><strong>
-                        湖北省科技馆新馆建设项目是省委、省政府确定的省重点公益性工程及惠民工程。
-                        省委、省政府给予高度重视，提出了“创新设计理念、丰富展示内容、集成展示手段、突显地域特色，
-                        体现人文关怀”的要求，确定了“活字创想”概念设计方案和“国内一流、中部领先、绿色环保、
-                        特色鲜明、面向未来”的建设目标，以及“启迪创新智慧，汇集创新文化，培育创新人才，
-                        促进创新发展”的功能定位。
-                    </strong></p>
-                    <p style="text-indent: 2em"><strong>
-                        新馆项目位于东湖新技术开发区高新大道以北、光谷5路以东交汇处，毗邻东湖新技术开发区新管委会。
-                        总占地面积19.4万平方米，主体建筑面积7.03万平方米。科技馆新馆是实施科技创新驱动战略、提高全民科学素质的大型科普基础设施。
-                        馆内设有7个常设展区、1个专题展区、1个儿童展区和临时展区，总面积约2.2万平方米，
-                        用于举办科普展览；建有球幕影院、巨幕影院、动感影院、4D影院等特效影院，
-                        用于播放科普影像；设有多间科普实验室、科普报告厅和多功能厅，
-                        用于举办学术交流会议、开展科学实验、科普剧表演等科学教育活动。
-                        新馆日均接待能力2.8万人，全年接待量可达300万人。
-                    </strong></p>
-                </div>
-			</div>
-		</div>
-	</div>
-	</section>
+{#	<section class="callaction">#}
+{#	    <div class="callaction-1 container">#}
+{#		<div class="row">#}
+{#			<div class="col-lg-12">#}
+{#				<div>#}
+{#                    <h1>湖北省科技馆介绍</h1>#}
+{#                    <p style="text-indent: 2em"><strong>#}
+{#                        湖北省科技馆新馆建设项目是省委、省政府确定的省重点公益性工程及惠民工程。#}
+{#                        省委、省政府给予高度重视，提出了“创新设计理念、丰富展示内容、集成展示手段、突显地域特色，#}
+{#                        体现人文关怀”的要求，确定了“活字创想”概念设计方案和“国内一流、中部领先、绿色环保、#}
+{#                        特色鲜明、面向未来”的建设目标，以及“启迪创新智慧，汇集创新文化，培育创新人才，#}
+{#                        促进创新发展”的功能定位。#}
+{#                    </strong></p>#}
+{#                    <p style="text-indent: 2em"><strong>#}
+{#                        新馆项目位于东湖新技术开发区高新大道以北、光谷5路以东交汇处，毗邻东湖新技术开发区新管委会。#}
+{#                        总占地面积19.4万平方米，主体建筑面积7.03万平方米。科技馆新馆是实施科技创新驱动战略、提高全民科学素质的大型科普基础设施。#}
+{#                        馆内设有7个常设展区、1个专题展区、1个儿童展区和临时展区，总面积约2.2万平方米，#}
+{#                        用于举办科普展览；建有球幕影院、巨幕影院、动感影院、4D影院等特效影院，#}
+{#                        用于播放科普影像；设有多间科普实验室、科普报告厅和多功能厅，#}
+{#                        用于举办学术交流会议、开展科学实验、科普剧表演等科学教育活动。#}
+{#                        新馆日均接待能力2.8万人，全年接待量可达300万人。#}
+{#                    </strong></p>#}
+{#                </div>#}
+{#			</div>#}
+{#		</div>#}
+{#	</div>#}
+{#	</section>#}
 
     <!-- 2017年版展品观察记录表介绍 -->
 	<section class="callaction">

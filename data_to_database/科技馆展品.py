@@ -5,7 +5,7 @@ from docx import Document
 
 filepath = 'E:/data/科技馆展品记录汇总表.docx'
 client = MongoClient("mongodb://serp:serp123456@127.0.0.1:27017")
-db = client.serp
+db = client.kxjy
 
 document = Document(filepath) #读入文件
 
@@ -50,6 +50,6 @@ for index, table in enumerate(tables):
                 "exhibit_tech": zpjs, "method": jbczykxyyff, "effect": xxxg, "people_number": cgrs, "room": ztmc,
                 "narrate_stru": ztxsjg, "weekend": xq, "record_time": jlsj, "record_people": jlr}
         data = {"label":"科技馆展品","venue":venueName,"item":item,"imgList":[],"videoList":[]}
-        datas.append(data)
-    db.data.insert(datas)
+        db.data.insert(data)
+
 

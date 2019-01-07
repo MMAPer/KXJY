@@ -27,6 +27,7 @@ from . import views, settings
 
 urlpatterns = [
     path('', views.front_index),
+    path('front/search/html', views.getSearchHtml),
     path('front/search/', views.front_search, name='front_search'),
     path('front/detail/<labelName>/<venueName>/<itemName>', views.getFrontDetailHtml),
 

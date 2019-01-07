@@ -92,6 +92,16 @@ def front_index(request):
     return render(request, 'front/index.html')
 
 
+def getSearchHtml(request):
+    context = {}
+    venueName = request.GET.get("venueName")  # 展馆名称
+    itemName = request.GET.get("itemName")  # 展品名称
+    context['venueName'] = venueName
+    context['itemName'] = itemName
+    print(venueName)
+    return render(request,"front/search.html", context)
+
+
 # 前台搜索页
 def front_search(request):
     return render(request, 'front/search.html')

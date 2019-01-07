@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta name="description" content="湖北省科技馆，科学教育资源平台" />
+    <meta name="author" content="湖北省科技馆" />
     <title>{% block title %}{% endblock %}</title>
     <!-- css -->
     <link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
@@ -37,30 +37,22 @@
     <div id="wrapper" class="home-page">
         <!-- start header -->
 	    <header>
-            <div class="navbar navbar-default navbar-static-top">
+            <div class="navbar navbar-default navbar-static-top" style="margin-top: -50px">
                 <div class="container">
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="#"><img src="{% static 'imgs/logo2.png' %}" alt="logo"/></a>
+{#                        <a class="navbar-brand" href="#"><img style="margin-top: -10px" src="{% static 'imgs/logo2.png' %}" alt="logo"/></a>#}
                     </div>
                     <div class="navbar-collapse collapse ">
                         <ul class="nav navbar-nav">
                             <li class="{% block nav_index_activate %}{% endblock %}"><a href="/" style="color: black; font-size: 20px">首页</a></li>
                             <li><a href="http://www.hbstm.org.cn/" target="_blank" style="color: black; font-size: 20px">湖北省科技馆</a></li>
-{#                            <li><a href="http://www.whiob.ac.cn/" target="_blank">武汉植物园</a></li>#}
-{#                            <li><a href="http://mus.cug.edu.cn/" target="_blank">逸夫博物馆</a></li>#}
-{#                            <li><a href="http://www.ihb.ac.cn/" target="_blank">水生所</a></li>#}
-                            <li class="{% block nav_search_activate %}{% endblock %}"><a href="{% url 'front_search' %}" style="color: black; font-size: 20px">资源搜索</a></li>
+{#                            <li class="{% block nav_search_activate %}{% endblock %}"><a href="{% url 'front_search' %}" style="color: black; font-size: 20px">资源搜索</a></li>#}
                             <li class="{% block nav_login_activate %}{% endblock %}"><a href="{% url 'login' %}" style="color: black; font-size: 20px">后台</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-	    </header>
+        </header>
 	    <!-- end header -->
 
         {% block  content %} {% endblock %}
