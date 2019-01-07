@@ -1,0 +1,211 @@
+{% extends 'front/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    科学教育资源平台-湖北省科学技术馆
+{% endblock %}
+
+{% block nav_index_activate %}active{% endblock %}
+
+{% block header_extends %}
+	    <script type="text/javascript" src="{% static 'vue/vue.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vue/axios.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'bower_components/Ionicons/css/ionicons.min.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <!-- start banner -->
+    <section id="banner">
+        <!-- Slider -->
+        <div id="main-slider" class="flexslider">
+                <ul class="slides">
+                    <li>
+                        <img src="{% static 'imgs/slides/bg1.jpg' %}" alt="" />
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="flex-caption">
+                                        <h3>科学技术文化传播</h3>
+                                        <p>让科学流行起来</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="{% static 'imgs/slides/bg2.jpg' %}" alt="" />
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="flex-caption">
+                                        <h3>科学技术文化传播</h3>
+                                        <p>让科学流行起来</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="{% static 'imgs/slides/bg3.jpg' %}" alt="" />
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="flex-caption">
+                                        <h3>科学技术文化传播</h3>
+                                        <p>让科学流行起来</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="{% static 'imgs/slides/bg4.jpg' %}" alt="" />
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="flex-caption">
+                                        <h3>科学技术文化传播</h3>
+                                        <p>让科学流行起来</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="{% static 'imgs/slides/bg5.jpg' %}" alt="" />
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="flex-caption">
+                                        <h3>科学技术文化传播</h3>
+                                        <p>让科学流行起来</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        <!-- end slider -->
+	</section>
+    <!-- end banner -->
+			<br />
+            <div class="row" id="index_search">
+                <div class="col-md-3"></div>
+                <div class="form-inline col-md-8">
+                    <div class="form-group" style="margin-right: 20px;">
+                        <label for="venueName">展馆名称</label>
+                        <input type="text" class="form-control" id="venueName" v-model="venueName" >
+                    </div>
+                    <div class="form-group" style="margin-right: 20px">
+                        <label for="itemName">展品名称</label>
+                        <input type="text" class="form-control" id="itemName" v-model="itemName">
+                    </div>
+                    <button type="submit" class="btn btn-primary" @click="searchData">搜索</button>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            <br />
+
+    <!-- 平台简介 -->
+	<section class="callaction">
+	    <div class="callaction-1 container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div>
+                    <h1>湖北省科技馆介绍</h1>
+                    <p style="text-indent: 2em"><strong>
+                        湖北省科技馆新馆建设项目是省委、省政府确定的省重点公益性工程及惠民工程。
+                        省委、省政府给予高度重视，提出了“创新设计理念、丰富展示内容、集成展示手段、突显地域特色，
+                        体现人文关怀”的要求，确定了“活字创想”概念设计方案和“国内一流、中部领先、绿色环保、
+                        特色鲜明、面向未来”的建设目标，以及“启迪创新智慧，汇集创新文化，培育创新人才，
+                        促进创新发展”的功能定位。
+                    </strong></p>
+                    <p style="text-indent: 2em"><strong>
+                        新馆项目位于东湖新技术开发区高新大道以北、光谷5路以东交汇处，毗邻东湖新技术开发区新管委会。
+                        总占地面积19.4万平方米，主体建筑面积7.03万平方米。科技馆新馆是实施科技创新驱动战略、提高全民科学素质的大型科普基础设施。
+                        馆内设有7个常设展区、1个专题展区、1个儿童展区和临时展区，总面积约2.2万平方米，
+                        用于举办科普展览；建有球幕影院、巨幕影院、动感影院、4D影院等特效影院，
+                        用于播放科普影像；设有多间科普实验室、科普报告厅和多功能厅，
+                        用于举办学术交流会议、开展科学实验、科普剧表演等科学教育活动。
+                        新馆日均接待能力2.8万人，全年接待量可达300万人。
+                    </strong></p>
+                </div>
+			</div>
+		</div>
+	</div>
+	</section>
+
+    <!-- 2017年版展品观察记录表介绍 -->
+	<section class="callaction">
+	    <div class="callaction-1 container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div>
+                    <h1>第一批展品记录介绍</h1>
+                    <p style="text-indent: 2em"><strong>
+从教育学角度出发，观察展品的科学内容，包括课标对接、认知水平、科学探究、STSE四个维度。
+课标对接表现为展品内容与小学、初中课程标准中各层面内容的对接情况，分为“强、弱”两个等级；
+认知水平指展品所展示内容对参观者认知水平的要求，分为“识记、理解、应用”；
+                        科学探究与STSE均为课程标准中的规定的学习目标。
+                    </strong></p>
+                    <p style="text-indent: 2em"><strong>
+从传播学角度，展品的科学内容将通过各种呈现方式传播给受众，呈现方式一定程度上会影响知识的传播效果，
+由此观察展品的呈现方式（包括展品的空间布局、潜件、呈现形式、展品的辅助讲解的潜件、技术要素等）
+以及展品的效果评价。展品的空间布局从展品关联角度，分为单体陈列、组合陈列；从空间位置角度，
+分为地面陈列、壁挂陈列、空中陈列、天花板陈列、多空间交互陈列。潜件用于展品的辅助讲解，
+形式包括实体文字辅助、普通多媒体、触控式(或感应式)讲解仪或平板电脑、感应或按钮式音箱及其他形式；
+内容包括导语、知识讲解、操作说明、安全规范及其他内容。展品呈现形式包括定点展示、互动展示、情境展示、
+剧场展示、学习活动五类，展陈基于展品展开，由展品呈现形式细化。展品的技术要素标本或实体模型展示、
+普通多媒体演示、机械交互、感应技术、虚拟现实、参与式体验、智能控制技术及其他技术。此展品的效果评价主要通过记录平均用时期间参观的总人数来展现。
+                    </strong></p>
+                </div>
+			</div>
+		</div>
+	</div>
+	</section>
+
+
+    <!-- 2018年版展品观察记录表介绍 -->
+	<section class="callaction">
+	    <div class="callaction-1 container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div>
+                    <h1>第二批展品记录介绍</h1>
+                    <p style="text-indent: 2em"><strong>
+此次对展品的评估主要从展品的设计、文字说明的撰写两个方面展开。展品的设计需考虑展品的造型、数字媒体、展陈主要形式、科学知识等方面。展品的造型设计要求包含符合主题精神、线条优雅、色彩和谐、结构牢固、避免炫光、耐磨、光滑无缺损、无尖锐棱角、操作按键种类、规格统一等要求；数字媒体包含音频、视频、数字媒体触摸屏、虚拟现实技术等情景交互数字媒体等5类；展陈设计主要形式包括图文板、实物、模型、原复场景或景箱、机电互动展项、多媒体和影院与剧场等；科学知识分为现象、常识、高科技、观念、生产五方面；展陈内容从科学、技术、社会、环境即STSE角度出发进行评估。此外还针对展品的教育性、科学性、趣味性、艺术性、参与性、操作简单等维度进行定性评估，评价分为高（H）、中（M）、低（L）三个等级。
+                    </strong></p>
+                    <p style="text-indent: 2em"><strong>
+文字说明的撰写一定程度会影响展品科学内容的传播效果，因此从文字说明是否符合撰写原则（主题突出、观点明确、风格鲜明）和文字说明撰写规范（下一级文字说明服从于上一级文字说明；字体、文字量、格式等内容上统一；文字说明表述精炼、通俗易懂；使用简化字）两个方面开展评估。
+                    </strong></p>
+                </div>
+			</div>
+		</div>
+	</div>
+	</section>
+	<script>
+	let index_search = new Vue({
+        el:"#index_search",
+        delimiters: ["[[", "]]"],
+        data(){
+            return {
+                venueName: "",
+                itemName: "",
+            }
+        },
+		methods:{
+			searchData(){
+				if(this.venueName=="" && this.itemName=="")
+				{
+					alert("请输入展馆名称或展品名称")
+				} else{
+					window.location.href="/front/search/html?venueName="+this.venueName+"&itemName="+this.itemName;
+				}
+			}
+		}
+	});
+	</script>
+{% endblock %}
+

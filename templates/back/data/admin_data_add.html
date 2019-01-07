@@ -1,0 +1,267 @@
+{% extends 'back/admin_base.html' %}
+{% load staticfiles %}
+
+    {% block extra_script %}
+        <script src="{% static 'plugins/md5/md5.js' %}"></script>
+        <script src="{% static 'plugins/sweetalert/sweetalert2.min.js' %}"></script>
+    {% endblock %}
+
+    {% block extra_css  %}
+        <link href="{% static 'mycss/imgupload.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'plugins/sweetalert/sweetalert2.min.css' %}">
+    {% endblock %}
+
+    {%block div_id %}admin_data_add{% endblock %}
+
+
+    {% block content %}
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                数据添加
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content container-fluid">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>类别名称</label>
+                        <select class="form-control" style="width:90%;" v-model="selectLabelName" @change="changeLabelName">
+                            <option v-for="label in labelName" :value="label" style="text-align: center;" v-cloak>[[ label ]]</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>场馆名称</label>
+                        <select class="form-control" style="width:90%;" tabindex="-1"
+                                aria-hidden="true" v-model="selectVenueName">
+                            <option v-for="item in showVenueName" :value="item">[[ item ]]</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="form-horizontal col-md-8">
+                    <div class="form-group" v-for="item in table">
+                        <label :for="item.remark" class="col-sm-2 control-label">[[ item.name ]]</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" :id="item.remark" v-model="item.value">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                 <div class="col-md-2"></div>
+                 <div class="img_upload col-md-8" >
+                    <div class="upload">
+                        <div class="upload_warp_left" @click="fileClick" >
+                            <button class="btn btn-success">选择图片</button>
+                        </div>
+                        <div class="upload_warp_text">
+                            选中[[imgList.length]]张文件，共[[bytesToSize(this.size)]];
+                        </div>
+                        <div class="upload_warp" style="border: 1px solid white;">
+                            <div class="upload_warp_img" v-show="imgList.length!=0" >
+                                <div class="upload_warp_img_div" style="float:left;margin-right:10px" v-for="(item,index) of imgList" >
+                                    <div class="upload_warp_img_div_top" >
+                                        <div class="upload_warp_img_div_text" >
+                                            [[item.file.name]]
+                                        </div>
+                                        <!-- db.data.updateOne({"item.name":"计算机是如何工作的"}, {"$set":{"imgList":["/media/1.jpg"]}}); -->
+                                        <img src="{% static 'imgs/del.png' %}" class="upload_warp_img_div_del" @click="fileDel(index)">
+                                    </div>
+                                    <img :src="item.file.src" style="width:200px;height:150px">
+                                </div>
+                            </div>
+                        </div>
+                        <input @change="fileChange($event)" name="imgList" type="file" id="upload_file" multiple style="display: none"/>
+                    </div>
+                 </div>
+            </div>
+            <div class="row" style="margin-top: 10px">
+                <div class="col-md-2"></div>
+                <button type="button" id="submitData" class="btn btn-primary" @click="submitData">提交数据</button>
+            </div>
+            <!--------------------------
+                  | Your Page Content Here |
+                  -------------------------->
+
+        </section>
+        <!-- /.content -->
+    {% endblock %}
+
+
+{% block end_script %}
+<script>
+let admin_data_add = new Vue({
+    el: "#admin_data_add",
+    delimiters: ["[[", "]]"],
+    data () {
+        return {
+            menu_data_active: true,
+            menu_venue_active: false,
+            menu_user_active: false,
+            menu_venue_label_active: false,
+            menu_venue_item_active: false,
+            venues: "",
+            labelName: [],
+            venueName: [],
+            showVenueName: [],
+            selectLabelName: "",
+            selectVenueName: "",
+            imgList: [],
+            size: 0,
+            table: "",
+            submit: ""
+        }
+    },
+    mounted(){
+        axios.get("/venue").then(venue_response=>{
+            this.venues = venue_response.data.data;
+            this.venues.forEach((label, index)=>{
+                this.labelName.push(label["label"]);
+                this.venueName.push(label["venues"]);
+            });
+            this.showVenueName = this.venueName[0];
+            this.selectLabelName = this.labelName[0];
+            this.selectVenueName = this.showVenueName[0];
+            this.getTable();
+        });
+    },
+    methods: {
+        changeLabelName(){
+            this.venues.forEach((label, index)=>{
+                if(label.label == this.selectLabelName){
+                    this.showVenueName = this.venueName[index];
+                    this.selectVenueName = this.showVenueName[0];
+                }
+            });
+            this.getTable();
+        },
+        getTable(){
+            axios.get("/table/"+this.selectLabelName).
+            then(table_response=>{
+                this.table = table_response.data.data.table;
+                this.table.forEach((table_item, index)=>{
+                    table_item.value = "";
+                });
+            });
+        },
+        fileClick(){
+            document.getElementById('upload_file').click()
+        },
+        fileChange(el){
+            if (!el.target.files[0].size) return;
+            this.fileList(el.target.files);
+            el.target.value = ''
+        },
+        fileList(files){
+            for (let i = 0; i < files.length; i++) {
+                this.fileAdd(files[i]);
+            }
+        },
+        fileAdd(file){
+            this.size = this.size + file.size;//总大小
+            let reader = new FileReader();
+            reader.vue = this;
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                file.src = this.result;
+                this.vue.imgList.push({
+                    file
+                });
+            }
+        },
+        fileDel(index){
+            this.size = this.size - this.imgList[index].file.size;//总大小
+            this.imgList.splice(index, 1);
+        },
+        bytesToSize(bytes){
+            if (bytes === 0) return '0 B';
+            let k = 1000, // or 1024
+                sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+                i = Math.floor(Math.log(bytes) / Math.log(k));
+            return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
+        },
+        dragenter(el){
+            el.stopPropagation();
+            el.preventDefault();
+        },
+        dragover(el){
+            el.stopPropagation();
+            el.preventDefault();
+        },
+        drop(el){
+            el.stopPropagation();
+            el.preventDefault();
+            this.fileList(el.dataTransfer.files);
+        },
+        submitData(){
+            check = this.checkData();
+            if(check){
+                let data_obj = new FormData();
+                for(i=0; i<this.imgList.length; i++)
+                {
+                    data_obj.append("imgList[]", this.imgList[i].file);
+                }
+                data_obj.append("label", this.selectLabelName);
+                data_obj.append("venue", this.selectVenueName);
+                data_obj.append("videoList", []);
+{#                data_obj = {#}
+{#                    label: this.selectLabelName,#}
+{#                    venue: this.selectVenueName,#}
+{#                    item: {},#}
+{#                    videoList: [],#}
+{#                };#}
+                data_obj_item = {};
+                this.table.forEach((table_item, index)=>{
+                    data_obj_item[table_item.remark] = table_item.value;
+                });
+                data_obj.append("item", JSON.stringify(data_obj_item));
+                $('#submitData').prop('disabled', true);
+               $.ajax({
+                   url:"/data/add",
+                   type: "post",
+                   data: data_obj,
+                   cache: false,
+                   processData: false,   // 告诉jQuery不要处理数据
+                   contentType: false,   // 告诉jQuery不要设置类型
+                   success: (response)=>{
+                        $('#submitData').prop('disabled', false);
+                        swal("信息提示", "上传成功！", "success");
+                        this.imgList = [];
+                        this.table.forEach((table_item, index)=>{
+                            table_item.value = "";
+                        });
+                   }
+               })
+
+            }else{
+                alert("数据为空")
+            }
+        },
+        checkData(){
+            check = false;
+            try{
+                this.table.forEach((table_item, index)=>{
+                   if(table_item.value.length != 0){
+                       throw new Error("hasValue");
+                   }
+                });
+            }catch(e){
+                if(e.message == "hasValue"){
+                    check=true;
+                }
+            }
+            return check;
+        }
+    }
+})
+</script>
+{% endblock %}

@@ -1,0 +1,302 @@
+{% extends 'back/admin_base.html' %}
+{% load staticfiles %}
+    {% block extra_script %}
+        <script src="{% static 'plugins/sweetalert/sweetalert2.min.js' %}"></script>
+    {% endblock %}
+
+    {% block extra_css  %}
+        <link rel="stylesheet" type="text/css" href="{% static 'plugins/sweetalert/sweetalert2.min.css' %}">
+    {% endblock %}
+
+    {%block div_id %}admin_data{% endblock %}
+
+
+    {% block content %}
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                数据管理
+                <small>
+                    <button class="btn btn-primary" style="margin-left:50px; margin-top:-10px" @click="window.location.href='/data/add/html/get/'">
+                        {#                    <span class="glyphicon glyphicon-ok">&nbsp;</span>#}
+                        添加数据
+                    </button>
+                </small>
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>类别名称</label>
+                        <select class="form-control" style="width:90%;" v-model="selectLabelName" @change="changeLabelName">
+                            <option v-for="label in labelName" :value="label" style="text-align: center;" v-cloak>[[ label ]]</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>场馆名称</label>
+                        <select class="form-control" style="width:90%;" tabindex="-1"
+                                aria-hidden="true" v-model="selectVenueName" @change="changeVenueName">
+                            <option v-for="item in showVenueName" :value="item">[[ item ]]</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group" style="margin-right: 20px">
+                        <label for="itemName">展品名称</label>
+                        <input type="text" class="form-control" id="itemName" v-model="itemName">
+                    </div>
+                </div>
+                <div class="col-md-1">
+                     <button type="submit" style="margin-top: 24px" class="btn btn-primary" @click="searchData">搜索</button>
+                </div>
+            </div>
+            <div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title" id="table-title">[[selectLabelName]]-[[selectVenueName]]</h3>
+                            </div>
+                            <div class="box-body">
+                                <div class="table-responsive">
+                                    <table class="table no-margin table-bordered" style="word-break:break-all; word-wrap:break-all;table-layout:fixed">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 5%">序号</th>
+                                                <th>展品名称</th>
+                                                <th>数据类别</th>
+                                                <th>展馆名称</th>
+                                                <th>基本内容</th>
+                                                <th>展厅名称</th>
+                                                <th style="width:15%; text-align:center;">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="text-center" v-for="(data,index) in pagerData.data">
+                                                <td>[[ index+1 ]]</td>
+                                                <td><a :href="[[data.href]]" target="_blank">[[ data.item.name ]]</a></td>
+                                                <td>[[ data.label ]]</td>
+                                                <td>[[ data.venue ]]</td>
+                                                <td>[[ data.item.content ]]</td>
+                                                <td>[[ data.item.room ]]</td>
+                                                <td><button class="btn btn-primary" style="margin-right: 10px;" @click="window.location.href='/data/update/html/'+data.label+'/'+data.venue+'/'+data.item.name">修改</button>
+                                                <button class="btn btn-danger" @click="deleteData(data.label, data.venue, data.item.name)">删除</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="pager" id="pager">
+{#                                    <span class="form-inline">#}
+{#                                        <select class="form-control" v-model="pagerData.page.pageSize" @change="showPage(pagerData.page.pageCurrent)" number>#}
+{#                                            <option v-for="item in pagerData.page.arrPageSize" value="[[item]]">[[item]]</option>#}
+{#                                        </select>#}
+{#                                    </span>#}
+                                    <span class="btn btn-default" @click="showPage(1)">首页</span>
+                                    <span class="btn btn-default" @click="showPage(pagerData.page.pageCurrent-1)">上一页</span>
+                                    <span class="form-inline">
+                                    <input class="form-control" style="width:60px;text-align:center" type="text" v-model="pagerData.page.pageCurrent" @keyup.enter="showPage(pagerData.page.pageCurrent)" />
+                                    </span>
+                                    <span>共[[pagerData.page.pageCount]]页</span>
+                                    <span class="btn btn-default" @click="showPage(pagerData.page.pageCurrent+1)">下一页</span>
+                                    <span class="btn btn-default" @click="showPage(pagerData.page.pageCount)">尾页</span>
+                                    <span>共[[pagerData.page.totalCount]]条数据，当前显示第[[startData]]-[[endData]]条记录</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--------------------------
+                      | Your Page Content Here |
+                      -------------------------->
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    {% endblock %}
+
+
+{% block end_script %}
+<script>
+let admin_data = new Vue({
+    el:"#admin_data",
+    delimiters: ["[[", "]]"],
+    data(){
+        return {
+            menu_search_active: false,
+            menu_data_active: true,
+            menu_venue_active: false,
+            menu_user_active: false,
+            menu_venue_label_active: false,
+            menu_venue_item_active: false,
+            venues: "",
+            labelName: [],
+            venueName: [],
+            showVenueName: [],
+            selectLabelName: "",
+            selectVenueName: "",
+            itemName: "",
+            datas: "",
+            pagerData: {
+                data: [],
+                page: {
+                    arrPageSize: [10, 20, 30],
+                    pageSize: 10,
+                    pageCount: 1,
+                    pageCurrent: 1,
+                    totalCount: 1
+                }
+            },
+            sortparam: "",
+            sorttype: 1
+        }
+    },
+    mounted(){
+        axios.get("/venue").then(venue_response=>{
+            this.venues = venue_response.data.data;
+            this.venues.forEach((label, index)=>{
+                this.labelName.push(label["label"]);
+                this.venueName.push(label["venues"]);
+            });
+            this.showVenueName = this.venueName[0];
+            this.selectLabelName = this.labelName[0];
+            this.selectVenueName = this.showVenueName[0];
+            axios.get("/data/"+this.selectLabelName+"/"+this.selectVenueName).then(data_response=>{
+                this.datas = data_response.data.data;
+                this.pagerData.page.totalCount = this.datas.length;
+                this.getPageData(this.pagerData.page);
+            });
+        });
+    },
+    methods: {
+        searchData(){
+            axios.get('/data/search?venue='+this.selectVenueName+'&item='+this.itemName).then(response=>{
+                data = response.data;
+                if(data.length!=0)
+                {
+                    this.datas = data.data;
+                    this.datas.forEach((mydata, index)=>{
+                       mydata.href = "/data/detail/html/"+mydata.label+"/"+mydata.venue+"/"+mydata.item.name;
+                    });
+                    this.showStatus = true;
+                } else {
+                    alert("未查询到相关信息");
+                    this.datas = [];
+                    this.showStatus = false;
+                }
+                this.pagerData.page = {
+                        arrPageSize: [10, 20, 30],
+                        pageSize: 10,
+                        pageCount: 1,
+                        pageCurrent: 1,
+                        totalCount: 1
+                    };
+                this.pagerData.page.totalCount = this.datas.length;
+                this.getPageData(this.pagerData.page);
+                });
+        },
+        changeLabelName: function(){
+            this.venues.forEach((label, index)=>{
+                if(label.label == this.selectLabelName){
+                    this.showVenueName = this.venueName[index];
+                    this.selectVenueName = this.showVenueName[0];
+                }
+            });
+            this.changeVenueName();
+        },
+        changeVenueName: function() {
+            axios.get("/data/"+this.selectLabelName+"/"+this.selectVenueName).then(data_response=>{
+                this.datas = data_response.data.data;
+                this.pagerData.page = {
+                    arrPageSize: [10, 20, 30],
+                    pageSize: 10,
+                    pageCount: 1,
+                    pageCurrent: 1,
+                    totalCount: 1
+                };
+                this.pagerData.page.totalCount = this.datas.length;
+                this.getPageData(this.pagerData.page);
+            });
+        },
+        showPage: function (pageIndex) {
+                    if (pageIndex > 0) {
+                        if(pageIndex>this.pagerData.page.pageCount) pageIndex = this.page.pageCount;
+                        this.getPageData({pageCurrent:pageIndex,pageSize:this.pageSize});//事件
+                    }
+                },
+        sortBy: function (sortparam) {
+                    this.sortparam = sortparam;
+                    this.sorttype = this.sorttype == -1 ? 1 : -1;
+                },
+        getPageData: function(page) {
+                this.pagerData.page.pageSize = page.pageSize;
+                this.pagerData.page.pageCurrent = page.pageCurrent;
+                this.pagerData.page.pageCount = Math.ceil(this.pagerData.page.totalCount / this.pagerData.page.pageSize);// 修改分页信息
+                let newPageInfo = [];
+                for (let i = 0; i < page.pageSize; i++) {
+                    let index =i+(page.pageCurrent-1)*page.pageSize;
+                    if(index>this.pagerData.page.totalCount-1)break;
+                        newPageInfo[newPageInfo.length] = this.datas[index];
+                }
+                this.pagerData.data = newPageInfo; // 修改分页数据
+                this.pagerData.data.forEach((datas_item, item)=>{
+                   datas_item.href = "/data/detail/html/"+datas_item.label+"/"+datas_item.venue+"/"+datas_item.item.name;
+                });
+        },
+        deleteData(labelName, venueName, itemName){
+            swal({
+                title: "操作提示",
+                text: "确定删除该数据吗？",
+                type: "warning",
+                showCancelButton: true,
+                confimButtonColor: "#DD6B55",
+                cancelButtonText: "取消",
+                confirmButtonText: "是的，确定删除！",
+                closeOnConfirm: true
+            }).then((isConfirm) => {
+                if(isConfirm){
+                    axios.delete("/data/delete/" + labelName+"/"+venueName+"/"+itemName).then(response => {
+                        res = response.data;
+                        if (res.code == 20000) {
+                            window.location.reload();
+                        } else if (res.code == 20003) {
+                            alert("您没有操作权限")
+                        }
+                    });
+                }
+            });
+            },
+    },
+    //计算属性
+    computed:{
+        // 分页大小 获取的时候显示父级传入的，修改的时候修改自身的。子组件不能修改父元素的值
+        pageSize:{
+            get:function(){
+                return this.pagerData.page.pageSize;
+            },
+            set:function(value){
+                this.pagerData.page.pageSize = value;
+            }
+        },
+        pageCurrent:{
+            get:function(){
+                return this.pagerData.page.pageCurrent;
+            },
+            set:function(value){
+                this.pagerData.page.pageCurrent = value;
+            }
+        },
+        startData:function(){
+            return this.pagerData.page.pageSize*(this.pagerData.page.pageCurrent-1)+1;
+        },
+        endData:function(){
+            let max =this.pagerData.page.pageSize*this.pagerData.page.pageCurrent;
+            return max>this.pagerData.page.totalCount?this.pagerData.page.totalCount:max;
+        }
+    },
+});
+</script>
+{% endblock %}

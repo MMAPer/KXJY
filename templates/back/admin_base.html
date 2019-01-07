@@ -1,0 +1,144 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>平台首页</title>
+    <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'dist/js/adminlte.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vue/vue.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vue/axios.min.js' %}"></script>
+    {% block extra_script %}{% endblock %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'dist/css/AdminLTE.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/Ionicons/css/ionicons.min.css' %}">
+     {% block extra_css  %}{% endblock %}
+    <link rel="stylesheet" type="text/css" href="{% static 'dist/css/skins/skin-blue.min.css' %}">
+
+    <style>
+        [v-cloak]{display: none;}
+        th{text-align: center}
+    </style>
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper" id="{% block div_id %}{% endblock %}">
+    <!-- Main Header -->
+    <header class="main-header">
+        <!-- Logo -->
+        <a href="/back/data/" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>K</b>XJY</span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>K</b>XJY</span>
+        </a>
+        <!-- Header Navbar -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <ul class="nav navbar-nav" style="float: right; margin-right: 120px">
+                <li class="user user-menu">
+                    <!-- Menu Toggle Button -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <!-- The user image in the navbar-->
+                        <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="user-image" alt="User Image">
+                        <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                        <span class="hidden-xs">{{ username }}</span>
+                    </a>
+                </li>
+                <li>
+                    <div style="margin-top: 7px;margin-left: 5px;">
+                        <a href="{% url 'logout' %}" class="btn btn-danger">Sign out</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle" alt="User Image">
+                </div>
+                <div class="pull-left info">
+                    <p>{{ username }}</p>
+                    <!-- Status -->
+                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                </div>
+            </div>
+
+            <!-- search form (Optional) -->
+{#            <form action="/search" method="post" class="sidebar-form">#}
+{#                <div class="input-group">#}
+{#                    <input type="text" name="q" class="form-control" placeholder="请输入展馆或展品名称">#}
+{#                    <span class="input-group-btn">#}
+{#              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>#}
+{#              </button>#}
+{#            </span>#}
+{#                </div>#}
+{#            </form>#}
+            <!-- /.search form -->
+
+
+            <!-- Sidebar Menu -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="header">HEADER</li>
+                <!-- Optionally, you can add icons to the links -->
+{#                <li :class="{'active': menu_search_active}"><a href="/back/search/"><i class="fa fa-link"></i> <span>展品搜索</span></a></li>#}
+                <li class="" :class="{'active': menu_data_active}"><a href="/back/data/"><i class="fa fa-link"></i> <span>数据管理</span></a></li>
+                <li class="treeview" :class="{'active': menu_venue_active}">
+                    <a href="#">
+                        <i class="fa fa-link"></i>
+                        <span>类别管理</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li :class="{'active': menu_venue_label_active}"><a href="/back/venue?typeName=类别名称">类别名称</a></li>
+                        <li :class="{'active': menu_venue_item_active}"><a href="/back/venue?typeName=包含场馆">包含场馆</a></li>
+                    </ul>
+                </li>
+                <li :class="{'active': menu_user_active}"><a href="/back/user/"><i class="fa fa-link"></i> <span>用户管理</span></a></li>
+
+            </ul>
+            <!-- /.sidebar-menu -->
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        {% block content %}{% endblock %}
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <!-- To the right -->
+        <div class="pull-right hidden-xs">
+            技术支持：NERCMS-WHU Multimedia Analysis Group
+        </div>
+        <!-- Default to the left -->
+        湖北省科学技术馆@版权所有 电话：027-87231130 联系人：徐雅丽 鄂ICP备17017325号-1
+    </footer>
+    <!-- Add the sidebar's background. This div must be placed
+    immediately after the control sidebar -->
+    <div class="control-sidebar-bg"></div>
+</div>
+</body>
+{% block end_script %}{% endblock %}
+
+</html>
