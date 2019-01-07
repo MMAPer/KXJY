@@ -14,9 +14,9 @@
 {% endblock %}
 
 {% block content %}
-<section class="callaction" style="margin-top: 50px">
+<section class="callaction">
 	<div class="callaction-1 container">
-        <div class="row">
+        <div class="row" style="margin-top: 80px">
             <img src="{% static 'imgs/bg_logo.jpg' %}" class="center-block"/>
         </div>
         <div class="row" id="index_search">
@@ -70,50 +70,27 @@
 	<section class="callaction">
 	    <div class="callaction-1 container">
 		<div class="row">
-			<div class="col-lg-12">
+			<div class="col-lg-6">
 				<div>
-                    <h1>第一批展品记录介绍</h1>
-                    <p style="text-indent: 2em"><strong>
-从教育学角度出发，观察展品的科学内容，包括课标对接、认知水平、科学探究、STSE四个维度。
-课标对接表现为展品内容与小学、初中课程标准中各层面内容的对接情况，分为“强、弱”两个等级；
-认知水平指展品所展示内容对参观者认知水平的要求，分为“识记、理解、应用”；
-                        科学探究与STSE均为课程标准中的规定的学习目标。
-                    </strong></p>
-                    <p style="text-indent: 2em"><strong>
-从传播学角度，展品的科学内容将通过各种呈现方式传播给受众，呈现方式一定程度上会影响知识的传播效果，
-由此观察展品的呈现方式（包括展品的空间布局、潜件、呈现形式、展品的辅助讲解的潜件、技术要素等）
-以及展品的效果评价。展品的空间布局从展品关联角度，分为单体陈列、组合陈列；从空间位置角度，
-分为地面陈列、壁挂陈列、空中陈列、天花板陈列、多空间交互陈列。潜件用于展品的辅助讲解，
-形式包括实体文字辅助、普通多媒体、触控式(或感应式)讲解仪或平板电脑、感应或按钮式音箱及其他形式；
-内容包括导语、知识讲解、操作说明、安全规范及其他内容。展品呈现形式包括定点展示、互动展示、情境展示、
-剧场展示、学习活动五类，展陈基于展品展开，由展品呈现形式细化。展品的技术要素标本或实体模型展示、
-普通多媒体演示、机械交互、感应技术、虚拟现实、参与式体验、智能控制技术及其他技术。此展品的效果评价主要通过记录平均用时期间参观的总人数来展现。
-                    </strong></p>
+                    <h2 style="margin-left: 12%">2017年版展品观察记录表介绍</h2>
+                    <div class="row">
+                        <img src="{% static 'imgs/index/2017.png' %}" class="center-block" width="95%"/>
+                    </div>
+                </div>
+			</div>
+            <div class="col-lg-1"></div>
+            	<div class="col-lg-6">
+				<div>
+                    <h2 style="margin-left: 15%">2018年版展品观察记录表介绍</h2>
+                    <div class="row">
+                        <img src="{% static 'imgs/index/2018.png' %}" class="center-block" width="95%"/>
+                    </div>
                 </div>
 			</div>
 		</div>
 	</div>
 	</section>
 
-
-    <!-- 2018年版展品观察记录表介绍 -->
-	<section class="callaction">
-	    <div class="callaction-1 container">
-		<div class="row">
-			<div class="col-lg-12">
-				<div>
-                    <h1>第二批展品记录介绍</h1>
-                    <p style="text-indent: 2em"><strong>
-此次对展品的评估主要从展品的设计、文字说明的撰写两个方面展开。展品的设计需考虑展品的造型、数字媒体、展陈主要形式、科学知识等方面。展品的造型设计要求包含符合主题精神、线条优雅、色彩和谐、结构牢固、避免炫光、耐磨、光滑无缺损、无尖锐棱角、操作按键种类、规格统一等要求；数字媒体包含音频、视频、数字媒体触摸屏、虚拟现实技术等情景交互数字媒体等5类；展陈设计主要形式包括图文板、实物、模型、原复场景或景箱、机电互动展项、多媒体和影院与剧场等；科学知识分为现象、常识、高科技、观念、生产五方面；展陈内容从科学、技术、社会、环境即STSE角度出发进行评估。此外还针对展品的教育性、科学性、趣味性、艺术性、参与性、操作简单等维度进行定性评估，评价分为高（H）、中（M）、低（L）三个等级。
-                    </strong></p>
-                    <p style="text-indent: 2em"><strong>
-文字说明的撰写一定程度会影响展品科学内容的传播效果，因此从文字说明是否符合撰写原则（主题突出、观点明确、风格鲜明）和文字说明撰写规范（下一级文字说明服从于上一级文字说明；字体、文字量、格式等内容上统一；文字说明表述精炼、通俗易懂；使用简化字）两个方面开展评估。
-                    </strong></p>
-                </div>
-			</div>
-		</div>
-	</div>
-	</section>
 	<script>
 	let index_search = new Vue({
         el:"#index_search",
